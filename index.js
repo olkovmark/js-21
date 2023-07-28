@@ -28,38 +28,33 @@
  */
 
 class Musician {
-  // статичне поле count, яке відслідковує кількість музикантів, початкове значення 0
-  // Об'являємо приватні поля #name; #instrument;
-
+  static count = 0;
+  #name;
+  #instrument;
   constructor(name, instrument) {
-    // Конструктор приймає два параметри: name та instrument
-    // присвоєння вхідного значення name до приватного поля #name
-    // присвоєння вхідного значення instrument до приватного поля #instrument
-    // збільшення значення статичного поля на 1
+    this.#name = name;
+    this.#instrument = instrument;
+    count++;
   }
 
   get name() {
-    // гетер для приватного поля #name
-    // повертає значення приватного поля #name
+    return this.#name;
   }
 
   get instrument() {
-    // гетер для приватного поля #instrument
-    // повертає значення приватного поля #instrument
+    return this.#instrument;
   }
 
   set name(newName) {
-    // сетер для приватного поля #name
-    e; // присвоює нове значення приватному полю #band
+    this.#name = newName;
   }
 
   set instrument(newInstrument) {
-    // сетер для приватного поля #instrument
-    // присвоює нове значення приватному полю #band
+    this.#instrument = newInstrument;
   }
 
   play() {
-    // метод, що виводить рядок в консоль <#name> грає на <#instrument>
+    console.log(`${this.#name} грає на ${this.#instrument}`);
   }
 }
 
@@ -98,16 +93,29 @@ class Musician {
  */
 
 class Guitarist extends Musician {
-  // Об'являємо приватні поля #band;
-  // Конструктор приймає три параметри: name, instrument та band
-  // виклик конструктора батьківського класу super з двома параметрами name, instrument
-  // присвоєння вхідного значення band до приватного поля #band
-  // гетер для приватного поля #band
-  // повертає значення приватного поля #band
-  // сетер для приватного поля #band
-  // присвоює нове значення приватному полю #band
-  // метод joinBand, що змінює значення #band, this.#band = band
-  // перевизначений метод play(), що виводить рядок в консоль ${super.name} грає на ${super.instrument} в групі ${this.#band}
+  #band;
+  constructor(name, instrument, band) {
+    super(name, instrument);
+    this.#band = band;
+  }
+
+  get band() {
+    return this.#band;
+  }
+
+  set band(band) {
+    this.#band = band;
+  }
+
+  joinBand(band) {
+    this.#band = band;
+  }
+
+  play() {
+    console.log(
+      `${super.name} грає на ${super.instrument} в групі ${this.#band}`
+    );
+  }
 }
 
 /*
@@ -145,20 +153,41 @@ class Guitarist extends Musician {
  */
 
 class Bassist extends Musician {
-  // Об'являємо приватні поля  #band;
-  // Конструктор приймає три параметри: name, instrument та band
-  // виклик конструктора батьківського класу super з двома параметрами name, instrument
-  // присвоєння вхідного значення band до приватного поля #band
-  // гетер для приватного поля #band
-  // повертає значення приватного поля #band
-  // сетер для приватного поля #band
-  // присвоює нове значення приватному полю #band
-  // метод joinBand, що змінює значення #band,this.#band = band
-  // перевизначений метод play(), що виводить рядок в консоль ${super.name} грає на ${super.instrument} в групі ${this.#band}
+  #band;
+  constructor(name, instrument, band) {
+    super(name, instrument);
+    this.#band = band;
+  }
+
+  get band() {
+    return this.#band;
+  }
+
+  set band(band) {
+    this.#band = band;
+  }
+
+  joinBand(band) {
+    this.#band = band;
+  }
+
+  play() {
+    console.log(
+      `${super.name} грає на ${super.instrument} в групі ${this.#band}`
+    );
+  }
 }
 
+console.log(Musician.prototype);
+Object.defineProperty(Musician.prototype, "band", {
+  set: function (newBand) {
+    this.#band = newBand;
+  },
+});
 // Тут ми використовуємо Object.defineProperty(), щоб додати сетер band до класу Musician після його створення.
+
 // Перший аргумент - це об'єкт, до якого ми хочемо додати властивість. У цьому випадку це Musician.prototype,
+
 // тому що ми хочемо додати сетер до всіх екземплярів класу Musician.
 // Другий аргумент - це ім'я властивості, яку ми хочемо додати. У цьому випадку це 'band'.
 // Третій аргумент - це об'єкт, який описує властивість. У цьому випадку ми хочемо додати сетер,
